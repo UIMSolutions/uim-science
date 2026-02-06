@@ -5,12 +5,7 @@
 *****************************************************************************************************************/
 module uim.datascience.classes.dataframe;
 
-import std.traits;
-import std.algorithm;
-import std.array;
-import std.associative;
-import uim.core;
-import uim.datascience.series;
+import uim.datascience;
 
 /**
  * A two-dimensional labeled data structure, similar to a pandas DataFrame

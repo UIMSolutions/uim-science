@@ -3,18 +3,12 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file. 
 * Authors: Ozan Nurettin Süel (aka UI-Manufaktur UG *R.I.P*)
 *****************************************************************************************************************/
-module uim.datascience;
+module uim.datascience.classes.distributions;
 
 public {
-  import uim.oop;
-  import uim.numerical;
-  
-  import uim.datascience.classes;
-  import uim.datascience.errors;
-  import uim.datascience.exceptions;
-  import uim.datascience.helpers;
-  import uim.datascience.interfaces;
-  
-  // Web integration
-  import uim.datascience.web;
+    import uim.datascience.classes.distributions.beta;
+    import uim.datascience.classes.distributions.chisquared;
+    import uim.datascience.classes.distributions.exponential;
+    import uim.datascience.classes.distributions.normal;
+    import uim.datascience.classes.distributions.uniform;
 }

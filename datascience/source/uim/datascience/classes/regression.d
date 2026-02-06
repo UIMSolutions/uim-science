@@ -3,13 +3,10 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file. 
 * Authors: Ozan Nurettin Süel (aka UI-Manufaktur UG *R.I.P*)
 *****************************************************************************************************************/
-module uim.datascience.regression;
+module uim.datascience.classes.regression;
 
-import std.math;
-import std.algorithm;
-import std.array;
-import uim.core;
-import uim.datascience.linalg;
+import uim.datascience;
+@safe:
 
 /**
  * Linear Regression using least squares

@@ -3,16 +3,10 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file. 
 * Authors: Ozan Nurettin Süel (aka UI-Manufaktur UG *R.I.P*)
 *****************************************************************************************************************/
-module uim.datascience.web;
+module uim.datascience.apis.api;
 
-import vibe.d;
-import std.json;
-import std.algorithm;
-import std.array;
-import std.conv;
-import uim.core;
-import uim.datascience.dataframe;
-import uim.datascience.series;
+import uim.datascience;
+@safe:
 
 /**
  * REST API endpoints for data science operations

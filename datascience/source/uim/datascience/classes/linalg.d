@@ -5,10 +5,8 @@
 *****************************************************************************************************************/
 module uim.datascience.classes.linalg;
 
-import std.math;
-import std.algorithm;
-import std.array;
-import uim.core;
+import uim.datascience;
+@safe:
 
 /**
  * Linear algebra utilities
@@ -258,9 +256,7 @@ class LinearAlgebra {
   /// Vector norm (L2)
   static double norm(double[] vector) pure {
     double sum = 0.0;
-    foreach(x; vector) {
-      sum += x * x;
-    }
+    vector.each!(x => sum += x * x); 
     return sqrt(sum);
   }
 
