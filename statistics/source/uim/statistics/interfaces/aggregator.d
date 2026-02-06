@@ -5,7 +5,8 @@
 *****************************************************************************************************************/
 module uim.statistics.interfaces.aggregator;
 
-import uim.statistics.interfaces.dataset : Sample;
+import uim.statistics;
+@safe:
 
 interface IAggregator {
     void add(Sample s) @safe;

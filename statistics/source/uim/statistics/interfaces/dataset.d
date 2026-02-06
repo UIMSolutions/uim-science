@@ -5,7 +5,8 @@
 *****************************************************************************************************************/
 module uim.statistics.interfaces.dataset;
 
-import std.datetime : SysTime, Duration;
+import uim.statistics;
+@safe:
 
 struct Sample {
     double value;

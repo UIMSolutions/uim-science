@@ -5,8 +5,8 @@
 *****************************************************************************************************************/
 module uim.statistics.interfaces.histogram;
 
-import uim.statistics.interfaces.dataset : Sample;
-import uim.statistics.interfaces.aggregator : IAggregator;
+import uim.statistics;
+@safe:
 
 struct BinCount {
     double lower;

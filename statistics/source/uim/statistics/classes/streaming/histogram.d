@@ -3,12 +3,10 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file. 
 * Authors: Ozan Nurettin Süel (aka UI-Manufaktur UG *R.I.P*)
 *****************************************************************************************************************/
-module uim.statistics.streaming.histogram;
+module uim.statistics.classes.streaming.histogram;
 
-import uim.statistics.interfaces.histogram;
-import uim.statistics.interfaces.dataset : Sample;
-import std.algorithm : clamp;
-import std.array : array;
+import uim.statistics;
+@safe:
 
 class Histogram : IHistogram {
     private double _min;

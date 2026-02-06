@@ -6,5 +6,4 @@
 module uim.statistics;
 
 public import uim.statistics.interfaces;
-public import uim.statistics.core;
-public import uim.statistics.streaming;
+public import uim.statistics.classes;

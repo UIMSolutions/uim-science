@@ -5,7 +5,9 @@
 *****************************************************************************************************************/
 module uim.statistics.interfaces;
 
-public import uim.statistics.interfaces.dataset;
-public import uim.statistics.interfaces.aggregator;
-public import uim.statistics.interfaces.histogram;
-public import uim.statistics.interfaces.quantile;
+public {
+    import uim.statistics.interfaces.dataset;
+    import uim.statistics.interfaces.aggregator;
+    import uim.statistics.interfaces.histogram;
+    import uim.statistics.interfaces.quantile;
+}

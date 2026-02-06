@@ -3,11 +3,10 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file. 
 * Authors: Ozan Nurettin Süel (aka UI-Manufaktur UG *R.I.P*)
 *****************************************************************************************************************/
-module uim.statistics.core.dataset;
+module uim.statistics.classes.dataset;
 
-import uim.statistics.interfaces.dataset;
-import std.algorithm : map;
-import std.array : array;
+import uim.statistics;
+@safe:
 
 class Dataset : IValueset {
     private Sample[] _samples;

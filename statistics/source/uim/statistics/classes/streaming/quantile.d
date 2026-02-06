@@ -3,11 +3,10 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file. 
 * Authors: Ozan Nurettin Süel (aka UI-Manufaktur UG *R.I.P*)
 *****************************************************************************************************************/
-module uim.statistics.streaming.quantile;
+module uim.statistics.classes.streaming.quantile;
 
-import uim.statistics.interfaces.quantile;
-import uim.statistics.interfaces.dataset : Sample;
-import std.algorithm : clamp;
+import uim.statistics;
+@safe:
 
 /// P2 online quantile estimator (simplified, single quantile).
 class P2Quantile : IQuantileEstimator {

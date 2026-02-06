@@ -3,10 +3,10 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file. 
 * Authors: Ozan Nurettin Süel (aka UI-Manufaktur UG *R.I.P*)
 *****************************************************************************************************************/
-module uim.statistics.core.series;
+module uim.statistics.classes.series;
 
-import std.datetime : SysTime, Duration, dur;
-import uim.statistics.interfaces.dataset : Sample;
+import uim.statistics;
+@safe:
 
 /// Simple time series buffer with optional retention window.
 class TimeSeries {
