@@ -3,12 +3,10 @@
 * License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file. 
 * Authors: Ozan Nurettin Süel (aka UI-Manufaktur UG *R.I.P*)
 *****************************************************************************************************************/
-module uim.datascience.classes.classification;
+module uim.datascience.classes.classifiers.decisiontree;
 
-import std.math;
-import std.algorithm;
-import std.array;
-import uim.core;
+import uim.datascience;
+@safe:
 
 /**
  * Decision Tree Classifier
@@ -88,17 +86,21 @@ class DecisionTreeClassifier {
     size_t bestFeature = 0;
     double bestThreshold = 0.0;
     
+    // Loop over features
     foreach(j; 0 .. X[0].length) {
       double[] values = new double[indices.length];
       foreach(i, idx; indices) {
         values[i] = X[idx][j];
       }
       
+      // Sort values for potential splits
       sort(values);
       
+      // Try splits between unique values
       foreach(i; 0 .. values.length - 1) {
         double threshold = (values[i] + values[i+1]) / 2.0;
         
+        // Split data
         size_t[] leftIndices, rightIndices;
         foreach(idx; indices) {
           if (X[idx][j] <= threshold) {
@@ -108,8 +110,10 @@ class DecisionTreeClassifier {
           }
         }
         
+        // Skip invalid splits
         if (leftIndices.length == 0 || rightIndices.length == 0) continue;
         
+        // Calculate information gain
         double gain = informationGain(y, indices, leftIndices, rightIndices);
         if (gain > bestGain) {
           bestGain = gain;
@@ -202,173 +206,31 @@ class DecisionTreeClassifier {
     return majorityLabel;
   }
 }
+///
+unittest {
+  mixin(ShowTest!"Testing DecisionTreeClassifier");
 
-/**
- * K-Nearest Neighbors Classifier
- */
-class KNearestNeighbors {
-  private {
-    double[][] X_train;
-    size_t[] y_train;
-    size_t k;
-  }
+  // Simple dataset
+  double[][] X = [[1.0, 2.0], [1.5, 1.8], [5.0, 8.0], [6.0, 9.0]];
+  // Class labels
+  size_t[] y = [0, 0, 1, 1];
+  // Create and fit decision tree
+  auto clf = new DecisionTreeClassifier(3, 1);
+  // Fit and predict
+  clf.fit(X, y);
+  // Check predictions on training data
+  size_t[] preds = clf.predict(X);
+  // Should match original labels
+  assert(preds == y, "Predictions should match labels");
 
-  /// Create KNN classifier
-  this(size_t num_neighbors = 3) {
-    assert(num_neighbors > 0, "k must be positive");
-    k = num_neighbors;
-  }
-
-  /// Fit KNN (just stores training data)
-  void fit(double[][] X, size_t[] y) {
-    assert(X.length == y.length, "X and y must have same length");
-    X_train = X.dup;
-    y_train = y.dup;
-  }
-
-  /// Predict class labels
-  size_t[] predict(double[][] X) const {
-    assert(X.length > 0, "Data must not be empty");
-    
-    size_t[] predictions = new size_t[X.length];
-    foreach(i; 0 .. X.length) {
-      predictions[i] = predictSample(X[i]);
-    }
-    return predictions;
-  }
-
-  private size_t predictSample(double[] sample) const {
-    // Compute distances to all training samples
-    struct Distance {
-      double dist;
-      size_t idx;
-    }
-    
-    Distance[] distances = new Distance[X_train.length];
-    foreach(i; 0 .. X_train.length) {
-      double dist = 0.0;
-      foreach(j; 0 .. sample.length) {
-        double diff = sample[j] - X_train[i][j];
-        dist += diff * diff;
-      }
-      distances[i] = Distance(sqrt(dist), i);
-    }
-    
-    // Sort and get k nearest
-    sort(distances);
-    
-    size_t[size_t] votes;
-    foreach(i; 0 .. min(k, distances.length)) {
-      size_t label = y_train[distances[i].idx];
-      votes[label]++;
-    }
-    
-    // Return most common label
-    size_t maxVotes = 0;
-    size_t prediction = 0;
-    foreach(label, count; votes) {
-      if (count > maxVotes) {
-        maxVotes = count;
-        prediction = label;
-      }
-    }
-    
-    return prediction;
-  }
+  // Test on new samples
+  double[][] testX = [[1.2, 1.9], [5.5, 8.5]];
+  // Should predict class 0 for first and class 1 for second
+  size_t[] testPreds = clf.predict(testX);
+  // Check predictions
+  assert(testPreds[0] == 0, "First test sample should be class 0");
+  // Check predictions
+  assert(testPreds[1] == 1, "Second test sample should be class 1");
 }
 
-/**
- * Naive Bayes Classifier
- */
-class NaiveBayesClassifier {
-  private {
-    struct ClassStats {
-      double prior;
-      double[] mean;
-      double[] var;
-    }
-    
-    ClassStats[size_t] class_stats;
-  }
 
-  /// Fit Naive Bayes
-  void fit(double[][] X, size_t[] y) {
-    assert(X.length == y.length, "X and y must have same length");
-    assert(X.length > 0 && X[0].length > 0, "Data must not be empty");
-    
-    size_t n_samples = X.length;
-    size_t n_features = X[0].length;
-    
-    // Group samples by class
-    double[][size_t] class_samples;
-    size_t[size_t] class_counts;
-    
-    foreach(i; 0 .. n_samples) {
-      size_t label = y[i];
-      class_samples[label] ~= i;
-      class_counts[label]++;
-    }
-    
-    // Calculate statistics for each class
-    foreach(label; class_counts.keys.sort()) {
-      auto indices = class_samples[label];
-      ClassStats stats;
-      stats.prior = cast(double)indices.length / n_samples;
-      stats.mean = new double[n_features];
-      stats.var = new double[n_features];
-      
-      // Calculate mean and variance for each feature
-      foreach(j; 0 .. n_features) {
-        double sum = 0.0;
-        foreach(idx; indices) {
-          sum += X[idx][j];
-        }
-        stats.mean[j] = sum / indices.length;
-        
-        double var = 0.0;
-        foreach(idx; indices) {
-          double diff = X[idx][j] - stats.mean[j];
-          var += diff * diff;
-        }
-        stats.var[j] = var / (indices.length - 1);
-      }
-      
-      class_stats[label] = stats;
-    }
-  }
-
-  /// Predict class labels
-  size_t[] predict(double[][] X) const {
-    assert(X.length > 0, "Data must not be empty");
-    
-    size_t[] predictions = new size_t[X.length];
-    foreach(i; 0 .. X.length) {
-      predictions[i] = predictSample(X[i]);
-    }
-    return predictions;
-  }
-
-  private size_t predictSample(double[] sample) const {
-    double maxProb = -double.max;
-    size_t prediction = 0;
-    
-    foreach(label, stats; class_stats) {
-      double prob = log(stats.prior);
-      
-      foreach(j; 0 .. sample.length) {
-        double mean = stats.mean[j];
-        double var = stats.var[j];
-        double num = exp(-((sample[j] - mean) ^^ 2) / (2 * var));
-        double denom = sqrt(2 * PI * var);
-        prob += log(num / denom);
-      }
-      
-      if (prob > maxProb) {
-        maxProb = prob;
-        prediction = label;
-      }
-    }
-    
-    return prediction;
-  }
-}
