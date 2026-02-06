@@ -6,6 +6,10 @@ version "0.1.0"
 targetName "uim-statistics"
 targetType "library"
 
+
+dependency "uim-framework" version="*"
+
+
 configuration "default" {
     dependency "vibe-d" version="~>0.10.3"
 }

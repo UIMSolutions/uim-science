@@ -5,5 +5,11 @@
 *****************************************************************************************************************/
 module uim.statistics;
 
-public import uim.statistics.interfaces;
-public import uim.statistics.classes;
+public {
+    import uim.oop;
+    import uim.numerical;
+
+    import uim.statistics.classes;
+    import uim.statistics.helpers;
+    import uim.statistics.interfaces;
+}
