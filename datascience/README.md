@@ -1,6 +1,6 @@
 # uim-datascience
 
-A comprehensive data science library for the D language with vibe.d integration.
+A data science library for the D language with vibe.d integration.
 
 ## Features
 
